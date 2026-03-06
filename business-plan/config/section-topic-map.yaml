@@ -1,0 +1,35 @@
+# Section Topic Map: maps plan section IDs to topic keywords
+# Used by research sync triage agent to match research findings to plan sections
+# Must cover all non-exempt artifact IDs from lifecycle-status.yaml
+
+sections:
+  03-market-analysis:
+    agent: diana
+    topics: "PESTEL, Five Forces, TAM/SAM/SOM, industry dynamics, market sizing, growth rates, macro trends"
+  04-competitive-positioning:
+    agent: victoria
+    topics: "Wardley Map, Blue Ocean, VRIO, competitor landscape, strategic positioning, PE platforms"
+  05-customer-problem:
+    agent: diana
+    topics: "JTBD, customer segments, pain points, personas, buyer needs, seller motivations"
+  06-solution-value-prop:
+    agent: victoria
+    topics: "Solution design, value proposition, Ansoff matrix, service offering, differentiation"
+  07-business-model:
+    agent: victoria
+    topics: "Revenue model, pricing, unit economics, lean canvas, monetization, advisory conversion"
+  08-go-to-market:
+    agent: ray
+    topics: "GTM strategy, channels, marketing, sales approach, client acquisition, transition planning"
+  09-operations-team:
+    agent: ray
+    topics: "Org structure, hiring, operations, resource planning, staffing, technology stack, integration"
+  10-financial-projections:
+    agent: marcus
+    topics: "P&L, cash flow, funding, deal economics, projections, debt, SBA lending, multiples"
+  11-risks-mitigants:
+    agent: victoria
+    topics: "Risk factors, regulatory risk, mitigants, contingencies, compliance, entity structure"
+  12-executive-summary:
+    agent: eli
+    topics: "Synthesis of all sections"

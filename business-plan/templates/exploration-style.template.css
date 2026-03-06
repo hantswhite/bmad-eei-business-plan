@@ -1,0 +1,361 @@
+/* ============================================================
+   Exploration Report PDF Style Template
+   WeasyPrint stylesheet for rendering exploration reports.
+   NO @import — all rules are inlined.
+   ============================================================ */
+
+/* ────────────────────────────────────────────────────────────
+   PART 1: FOUNDATION
+   Copied from pdf-style.template.css — page layout, body,
+   headings, tables, lists, blockquotes, code, links, cover.
+   ──────────────────────────────────────────────────────────── */
+
+/* Page layout */
+@page {
+  size: letter;
+  margin: 0.85in 0.9in 0.75in 0.9in;
+  @bottom-center {
+    content: counter(page);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 9pt;
+    color: #999;
+  }
+}
+@page :first {
+  @bottom-center { content: none; }
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10pt;
+  line-height: 1.48;
+  color: #1a1a1a;
+  margin: 0;
+  padding: 0;
+}
+
+/* Cover page */
+.cover {
+  text-align: center;
+  padding: 120pt 0 40pt 0;
+  border-bottom: 2.5pt solid #1a3a5c;
+  margin-bottom: 0;
+  page-break-after: always;
+}
+.cover h1 {
+  font-size: 30pt;
+  font-weight: 700;
+  color: #1a3a5c;
+  margin: 0 0 8pt 0;
+  letter-spacing: 0.5pt;
+}
+.cover .subtitle {
+  font-size: 14pt;
+  font-weight: 400;
+  color: #555;
+  margin: 0 0 4pt 0;
+}
+.cover .date {
+  font-size: 11pt;
+  color: #888;
+  margin-top: 12pt;
+}
+.cover .confidential {
+  font-size: 8pt;
+  color: #b00;
+  text-transform: uppercase;
+  letter-spacing: 1.5pt;
+  margin-top: 18pt;
+}
+.cover .version {
+  font-size: 9pt;
+  color: #aaa;
+  margin-top: 6pt;
+}
+
+/* TOC page */
+.toc {
+  page-break-after: always;
+}
+.toc h2 {
+  font-size: 16pt;
+  color: #1a3a5c;
+  border-bottom: 2pt solid #1a3a5c;
+  padding-bottom: 4pt;
+  margin-top: 20pt;
+}
+.toc ul {
+  list-style: none;
+  padding-left: 0;
+  font-size: 11pt;
+  line-height: 2.0;
+}
+.toc li {
+  padding: 2pt 0;
+  border-bottom: 0.5pt dotted #ccc;
+  overflow: hidden;
+}
+.toc a {
+  color: #1a3a5c;
+  text-decoration: none;
+}
+.toc a::after {
+  content: target-counter(attr(href url), page);
+  float: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Headings */
+h1 {
+  font-size: 20pt;
+  font-weight: 700;
+  color: #1a3a5c;
+  margin: 28pt 0 10pt 0;
+  padding-bottom: 4pt;
+  border-bottom: 2pt solid #1a3a5c;
+  page-break-after: avoid;
+}
+
+h2 {
+  font-size: 15pt;
+  font-weight: 700;
+  color: #1a3a5c;
+  margin: 24pt 0 8pt 0;
+  padding-bottom: 3pt;
+  border-bottom: 1pt solid #ddd;
+  page-break-after: avoid;
+}
+
+h3 {
+  font-size: 12pt;
+  font-weight: 700;
+  color: #2a4a6c;
+  margin: 16pt 0 6pt 0;
+  page-break-after: avoid;
+}
+
+h4 {
+  font-size: 10.5pt;
+  font-weight: 700;
+  color: #3a5a7c;
+  margin: 12pt 0 4pt 0;
+  page-break-after: avoid;
+}
+
+h5 {
+  font-size: 10pt;
+  font-weight: 700;
+  color: #4a6a8c;
+  margin: 10pt 0 4pt 0;
+  page-break-after: avoid;
+}
+
+/* Body text */
+p {
+  margin: 0 0 7pt 0;
+  text-align: justify;
+  hyphens: auto;
+  orphans: 3;
+  widows: 3;
+}
+
+strong { font-weight: 600; }
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8pt 0 10pt 0;
+  font-size: 9pt;
+  page-break-inside: auto;
+}
+thead {
+  display: table-header-group;
+}
+thead th {
+  background: #1a3a5c;
+  color: #fff;
+  font-weight: 600;
+  padding: 5pt 6pt;
+  text-align: left;
+  font-size: 8.5pt;
+}
+tbody td {
+  padding: 4pt 6pt;
+  border-bottom: 0.5pt solid #ddd;
+  vertical-align: top;
+}
+tbody tr:nth-child(even) td {
+  background: #f7f9fb;
+}
+tr {
+  page-break-inside: avoid;
+}
+
+/* Lists */
+ul, ol {
+  margin: 4pt 0 8pt 0;
+  padding-left: 18pt;
+}
+li {
+  margin-bottom: 3pt;
+}
+
+/* Blockquotes — used for callout boxes */
+blockquote {
+  background: #f0f4f8;
+  border-left: 3pt solid #1a3a5c;
+  padding: 8pt 12pt;
+  margin: 8pt 0;
+  font-size: 9.5pt;
+}
+blockquote p {
+  margin: 0 0 4pt 0;
+}
+blockquote p:last-child {
+  margin: 0;
+}
+
+/* Code blocks (if any) */
+code {
+  font-size: 9pt;
+  background: #f5f5f5;
+  padding: 1pt 3pt;
+  border-radius: 2pt;
+}
+pre {
+  background: #f5f5f5;
+  padding: 8pt;
+  font-size: 8.5pt;
+  overflow-x: auto;
+  border-radius: 3pt;
+}
+
+/* Horizontal rules */
+hr {
+  border: none;
+  border-top: 1pt solid #ddd;
+  margin: 16pt 0;
+}
+
+/* Links — print as plain text */
+a {
+  color: #1a3a5c;
+  text-decoration: none;
+}
+
+/* Section breaks — major sections start on new page */
+.section-break {
+  page-break-before: always;
+}
+
+/* Glossary appendix */
+.glossary {
+  page-break-before: always;
+}
+.glossary h2 {
+  font-size: 16pt;
+  color: #1a3a5c;
+  border-bottom: 2pt solid #1a3a5c;
+  padding-bottom: 4pt;
+}
+.glossary table {
+  font-size: 9pt;
+}
+.glossary td:first-child {
+  width: 35%;
+  font-weight: 500;
+}
+
+/* ────────────────────────────────────────────────────────────
+   PART 2: EXPLORATION-SPECIFIC SYNTHESIS STYLING
+   Additions for exploration report rendering.
+   ──────────────────────────────────────────────────────────── */
+
+/* Cover page additions — type label and scope */
+.cover .type-label {
+  font-size: 10pt;
+  text-transform: uppercase;
+  letter-spacing: 3pt;
+  color: #1a3a5c;
+  font-weight: 600;
+  margin-bottom: 6pt;
+}
+
+.cover .scope {
+  font-size: 10pt;
+  color: #666;
+  margin-top: 8pt;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Abstract box — summary callout at top of synthesis */
+.abstract-box {
+  background: #f5f7f9;
+  border: 1pt solid #ddd;
+  border-radius: 3pt;
+  padding: 14pt 18pt;
+  margin: 0 0 16pt 0;
+  font-size: 10pt;
+  line-height: 1.55;
+  page-break-inside: avoid;
+}
+
+.abstract-label {
+  font-weight: bold;
+  font-size: 8.5pt;
+  text-transform: uppercase;
+  letter-spacing: 1pt;
+  color: #1a3a5c;
+  margin: 0 0 6pt 0;
+}
+
+/* Finding block — numbered key findings with left accent */
+.finding {
+  border-left: 3pt solid #1a3a5c;
+  padding: 10pt 14pt;
+  margin: 12pt 0;
+  background: #fafbfc;
+  page-break-inside: avoid;
+}
+
+.finding-number {
+  font-size: 20pt;
+  font-weight: bold;
+  color: #1a3a5c;
+  float: left;
+  margin-right: 12pt;
+  line-height: 1;
+}
+
+.finding-headline {
+  font-weight: bold;
+  font-size: 10.5pt;
+  color: #1a3a5c;
+  margin: 0 0 4pt 0;
+}
+
+/* Evidence block — indented with subtle left border */
+.evidence {
+  margin-left: 18pt;
+  padding-left: 12pt;
+  border-left: 2pt solid #e0e4e8;
+  font-size: 9.5pt;
+  color: #333;
+}
+
+.evidence-source {
+  font-size: 8pt;
+  color: #888;
+  font-style: italic;
+  margin-top: 4pt;
+}
+
+/* Cross-reference link */
+.cross-ref {
+  font-size: 9pt;
+  color: #1a3a5c;
+  font-style: italic;
+}

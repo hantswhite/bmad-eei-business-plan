@@ -1,0 +1,59 @@
+# Persona Grid: (context x artifact) lookup for critique agent
+# Context: A (investor) | B (market-entry) | C (internal)
+
+# Role label used in critique prompt item 4 ("What a well-prepared {role} would say...")
+roles:
+  A: founder
+  B: market entry lead
+  C: project sponsor
+
+personas:
+  03-market-analysis:
+    A: "Series B investor who's seen inflated TAMs kill deals"
+    B: "Market entry consultant who's watched expansions fail on bad data"
+    C: "Division head who's been burned by market assumptions"
+
+  04-competitive-positioning:
+    A: "VC partner who's funded the competitor"
+    B: "Strategy consultant who's advised market leaders in the target space"
+    C: "COO who's seen 'differentiation' that customers don't notice"
+
+  05-customer-problem:
+    A: "Product investor who's seen solutions looking for problems"
+    B: "Customer research director at a global consultancy"
+    C: "VP Product who's killed projects with weak user evidence"
+
+  06-solution-value-prop:
+    A: "Technical due diligence partner"
+    B: "Go-to-market strategist who's launched in 10+ new markets"
+    C: "CTO who's seen value props that engineering can't deliver"
+
+  07-business-model:
+    A: "Financial due diligence analyst focused on unit economics"
+    B: "CFO who's managed P&Ls across multiple markets"
+    C: "Finance director who gates budget approvals"
+
+  08-go-to-market:
+    A: "Growth-stage investor who's seen channels that don't scale"
+    B: "Regional GM who's localized GTM across geographies"
+    C: "CMO who's measured every channel ruthlessly"
+
+  09-operations-team:
+    A: "Operating partner at a PE-backed VC"
+    B: "COO who's scaled operations into new markets"
+    C: "CHRO who knows what org structures actually survive contact with reality"
+
+  10-financial-projections:
+    A: "LP-facing CFO who stress-tests every portfolio company's model"
+    B: "Corporate development head who's evaluated 50+ market entry business cases"
+    C: "CFO who's rejected more budget proposals than approved"
+
+  11-risks-mitigants:
+    A: "Board member who's sat through three company near-death experiences"
+    B: "Risk officer at a multinational with failed expansion history"
+    C: "General counsel who's seen optimistic risk assessments become lawsuits"
+
+  12-executive-summary:
+    A: "Managing partner deciding whether to take the meeting"
+    B: "Executive committee member deciding go/no-go"
+    C: "CEO reading this between six other proposals"

@@ -1,0 +1,2 @@
+module,phase,name,code,sequence,workflow-file,command,required,agent,options,description,output-location,outputs,
+eei-bp,1-analysis,Create Business Plan,CBP,10,_bmad/eei/business-plan/workflows/create-business-plan/workflow.md,bmad-eei-bp-create-business-plan,false,strategy-consultant,Create Mode,"Context-adaptive business plan with integrated strategy frameworks",planning_artifacts,"business plan",
