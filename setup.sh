@@ -9,9 +9,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 EEI_ROOT="$SCRIPT_DIR"
 COMMANDS_SRC="$EEI_ROOT/business-plan/commands"
 
-# Walk up from EEI_ROOT to find PROJECT_ROOT (directory containing .git/ or .git file)
+# Walk up from EEI_ROOT's parent to find PROJECT_ROOT (directory containing .git/ or .git file)
+# Starts from parent because EEI_ROOT itself is a submodule and has its own .git file
 find_project_root() {
-  local dir="$EEI_ROOT"
+  local dir="$(dirname "$EEI_ROOT")"
   while [[ "$dir" != "/" ]]; do
     if [[ -d "$dir/.git" || -f "$dir/.git" ]]; then
       echo "$dir"
