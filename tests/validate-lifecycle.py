@@ -14,11 +14,29 @@ import yaml
 from pathlib import Path
 from collections import defaultdict
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-LIFECYCLE_MD = PROJECT_ROOT / "_bmad/eei/business-plan/workflows/create-business-plan/lifecycle.md"
-PERSONA_GRID = PROJECT_ROOT / "_bmad/eei/business-plan/config/persona-grid.yaml"
-CONFIG_YAML = PROJECT_ROOT / "_bmad/eei/config.yaml"
-STEPS_DIR = PROJECT_ROOT / "_bmad/eei/business-plan/workflows/create-business-plan/steps"
+# Auto-detect: running from submodule (tests/ is sibling to business-plan/)
+# or from consumer project root (tests at _bmad/eei/tests/)
+_SCRIPT_DIR = Path(__file__).resolve().parent
+_EEI_ROOT = _SCRIPT_DIR.parent  # one level up from tests/
+
+# If business-plan/ exists as sibling, we're inside the submodule
+if (_EEI_ROOT / "business-plan").is_dir():
+    EEI_ROOT = _EEI_ROOT
+else:
+    # Fallback: assume consumer project root structure
+    EEI_ROOT = _SCRIPT_DIR.parent / "_bmad" / "eei"
+
+# Walk up to find project root (.git directory or .git file)
+PROJECT_ROOT = EEI_ROOT
+while PROJECT_ROOT != PROJECT_ROOT.parent:
+    if (PROJECT_ROOT / ".git").exists() or (PROJECT_ROOT / ".git").is_file():
+        break
+    PROJECT_ROOT = PROJECT_ROOT.parent
+
+LIFECYCLE_MD = EEI_ROOT / "business-plan/workflows/create-business-plan/lifecycle.md"
+PERSONA_GRID = EEI_ROOT / "business-plan/config/persona-grid.yaml"
+CONFIG_YAML = EEI_ROOT / "config.yaml"
+STEPS_DIR = EEI_ROOT / "business-plan/workflows/create-business-plan/steps"
 
 passed = 0
 failed = 0
@@ -41,6 +59,25 @@ def fail(msg):
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+def resolve_project_path(rel_path):
+    """Resolve a {project-root}/ relative path.
+
+    Tries PROJECT_ROOT first. If not found and the path starts with
+    _bmad/eei/, strips that prefix and resolves relative to EEI_ROOT
+    (submodule layout).
+    """
+    full = PROJECT_ROOT / rel_path
+    if full.exists():
+        return full
+    # In submodule layout, _bmad/eei/ maps to EEI_ROOT
+    prefix = "_bmad/eei/"
+    if rel_path.startswith(prefix):
+        alt = EEI_ROOT / rel_path[len(prefix):]
+        if alt.exists():
+            return alt
+    return full  # return original (non-existent) for error reporting
+
 
 def extract_yaml_block(md_path):
     """Extract the lifecycle-status.yaml code block from lifecycle.md."""
@@ -307,10 +344,14 @@ def test_config_references():
         val = config.get(key, "")
         # Strip {project-root}/ prefix
         rel = val.replace("{project-root}/", "")
-        full = PROJECT_ROOT / rel
+        full = resolve_project_path(rel)
+        # Accept either full suffix or the _bmad/eei/-stripped variant
+        suffix_native = expected_suffix.replace("/", os.sep)
+        alt_suffix = expected_suffix.replace("_bmad/eei/", "").replace("/", os.sep)
+        full_str = str(full)
         if not full.exists():
             fail(f"config.{key} -> {rel} does not exist")
-        elif not str(full).endswith(expected_suffix.replace("/", os.sep)):
+        elif not (full_str.endswith(suffix_native) or full_str.endswith(alt_suffix)):
             fail(f"config.{key} points to unexpected path: {rel}")
         else:
             ok(f"config.{key} -> {rel}")
@@ -454,7 +495,7 @@ def test_research_paths_config():
 # Test 12: section_topic_map config key and file exists
 # ---------------------------------------------------------------------------
 
-SECTION_TOPIC_MAP = PROJECT_ROOT / "_bmad/eei/business-plan/config/section-topic-map.yaml"
+SECTION_TOPIC_MAP = EEI_ROOT / "business-plan/config/section-topic-map.yaml"
 
 def test_section_topic_map_config():
     print("\n[12] Config.yaml — section_topic_map key and file")
@@ -466,7 +507,7 @@ def test_section_topic_map_config():
         return
 
     rel = stm.replace("{project-root}/", "")
-    full = PROJECT_ROOT / rel
+    full = resolve_project_path(rel)
     if not full.exists():
         fail(f"config.section_topic_map -> {rel} does not exist")
     else:
@@ -535,7 +576,9 @@ def test_research_registry_block(schema):
 # Test 15: Entry point wiring — menu links and slash command targets
 # ---------------------------------------------------------------------------
 
-COMMANDS_DIR = PROJECT_ROOT / ".claude/commands"
+# Check submodule commands dir first, fall back to consumer project
+_SUBMODULE_CMDS = EEI_ROOT / "business-plan/commands"
+COMMANDS_DIR = _SUBMODULE_CMDS if _SUBMODULE_CMDS.is_dir() else PROJECT_ROOT / ".claude/commands"
 
 def test_entry_points():
     print("\n[15] Entry point wiring — menu links and slash commands")
@@ -558,7 +601,7 @@ def test_entry_points():
             # Skip config-token-only refs like {consistency_review}
             if target.startswith("{") and not target.startswith("_bmad"):
                 continue
-            full = PROJECT_ROOT / target
+            full = resolve_project_path(target)
             if not full.exists():
                 broken.append(f"{md_file.name}: 'Load and follow' target missing: {target}")
 
@@ -571,7 +614,7 @@ def test_entry_points():
         )
         for match in target_pattern.finditer(text):
             target = match.group(1)
-            full = PROJECT_ROOT / target
+            full = resolve_project_path(target)
             if not full.exists():
                 broken.append(f"{cmd_file.name}: slash command target missing: {target}")
 
