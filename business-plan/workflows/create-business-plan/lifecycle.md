@@ -233,9 +233,9 @@ The critique has been saved to `{critique_output_file}`.
   - Execute recommended cuts from the critique's condensation plan (section 5)
   - Replace hedged language with direct statements where the critique identified supporting evidence
   - For substantiation gaps flagged by the critique, apply research enforcement policy from `{config.research_enforcement}`:
-    - **CRITICAL gaps:** If policy is `strict`, MUST run the recommended research skill (`/deep-research` or `/guided-exploration`) before advancing. If policy is `standard`, present as WARNING and recommend research. If policy is `permissive`, may tag with `<!-- NEEDS-RESEARCH: {description} -->`.
-    - **MAJOR gaps:** Recommend research (`/deep-research` or `/guided-exploration`); may tag with `<!-- NEEDS-RESEARCH: {description} -->` if research is infeasible within current session.
-    - **MINOR gaps:** May tag with `<!-- NEEDS-RESEARCH: {description} -->` or accept with directional language.
+    - **CRITICAL gaps:** If policy is `strict`, MUST run `/deep-research` or `/guided-exploration` before advancing. If policy is `standard`, present as WARNING and recommend research. If policy is `permissive`, may tag with `<!-- NEEDS-RESEARCH: {description} -->`.
+    - **MAJOR gaps:** If policy is `strict`, MUST run `/deep-research` or `/guided-exploration` before advancing (same as CRITICAL). If policy is `standard`, recommend research; may tag with `<!-- NEEDS-RESEARCH: {description} -->` if infeasible. If policy is `permissive`, may tag with `<!-- NEEDS-RESEARCH: {description} -->`.
+    - **MINOR gaps:** May tag with `<!-- NEEDS-RESEARCH: {description} -->` or accept with directional language (all policies).
   - Do not add defensive qualifiers ("This is honest:", "Year 1 reality check:"), meta-commentary, or unnecessary framing
   - **Never reference prior versions, drafts, or revision history in artifact content.** Each artifact must read as if it was always this way. No "was X, now Y", "corrected from", "updated from v1", "previously stated", or similar changelog language. The artifact is the current truth — revision history lives in git, critiques, and consistency review files, not in the plan itself.
   - **Governance sync:** After revising, check whether any values changed in the artifact that are also tracked in `{assumptions_file}` or `{decisions_file}`. If so, update the governance files to match. This prevents governance drift — governance files are the single source of truth and must always reflect the latest artifact values.

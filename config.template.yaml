@@ -19,7 +19,7 @@ project_manifest: "{project-root}/BUSINESS_PLAN.md"
 reference_documents: "{project-root}/references"
 
 # Research Enforcement
-# strict: CRITICAL substantiation gaps must be resolved via /deep-research or /guided-exploration before artifact advances past REVISED
+# strict: CRITICAL and MAJOR substantiation gaps must be resolved via /deep-research or /guided-exploration before artifact advances past REVISED
 # standard: CRITICAL gaps flagged as WARNING at REVISED transition; all gaps reported at assembly (step 13)
 # permissive: all gaps may be tagged NEEDS-RESEARCH; reported at assembly only
 research_enforcement: "{{RESEARCH_ENFORCEMENT}}"

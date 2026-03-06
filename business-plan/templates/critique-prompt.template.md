@@ -24,7 +24,7 @@ Read `{artifact_file}` cold and provide:
 
    Severity classification:
    - **CRITICAL** — Claim is core to the investment thesis, deal economics, or addressable market. Must be researched before artifact advances.
-   - **MAJOR** — Claim supports a key argument or competitive positioning. Should be researched; may be tagged `<!-- NEEDS-RESEARCH -->` if infeasible.
+   - **MAJOR** — Claim supports a key argument or competitive positioning. Must be researched before artifact advances (under strict enforcement).
    - **MINOR** — Claim is contextual, illustrative, or supporting. Can be tagged `<!-- NEEDS-RESEARCH -->` or accepted with directional language.
 
    **Hedging language:** Identify instances where evidence exists (in the artifact itself, in assumptions.md, or in referenced research) but the language softens it with "may", "could", "potentially", "approximately", or "estimated". For each: quote the hedged text, cite the supporting evidence, and provide the direct restatement.
